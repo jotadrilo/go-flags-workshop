@@ -1,4 +1,4 @@
-package main
+package format
 
 import (
 	"bytes"
@@ -33,7 +33,8 @@ func render(rows [][]string) []byte {
 	return b.Bytes()
 }
 
-func renderCode(code string) string {
+// RenderCode renders a snippet with lines numbers
+func RenderCode(code string) string {
 	// Go editors use tabs instead of spaces, fix them to proper printing
 	code = strings.ReplaceAll(code, "\t", "    ")
 	text := fmt.Sprintf("\n %02d |", 1)
@@ -44,9 +45,8 @@ func renderCode(code string) string {
 	return text + fmt.Sprintf("\n %02d |", len(lines)+2)
 }
 
-func renderFlagSet(code string, fss ...*flag.FlagSet) {
-	fmt.Printf("%s\n\n", renderCode(code))
-
+// RenderFlagSet renders a flag.FlagSet as a table
+func RenderFlagSet(fss ...*flag.FlagSet) {
 	rows := [][]string{}
 	for _, fs := range fss {
 		fs.VisitAll(func(f *flag.Flag) {
@@ -56,9 +56,8 @@ func renderFlagSet(code string, fss ...*flag.FlagSet) {
 	fmt.Printf("%s\n", render(rows))
 }
 
-func renderPFlagSet(code string, fss ...*pflag.FlagSet) {
-	fmt.Printf("%s\n\n", renderCode(code))
-
+// RenderPFlagSet renders a pflag.FlagSet as a table
+func RenderPFlagSet(fss ...*pflag.FlagSet) {
 	rows := [][]string{}
 	for _, fs := range fss {
 		fs.VisitAll(func(f *pflag.Flag) {
