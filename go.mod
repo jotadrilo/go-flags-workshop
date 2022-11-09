@@ -1,6 +1,6 @@
 module github.com/jotadrilo/go-flags-workshop
 
-go 1.15
+go 1.19
 
 require (
 	github.com/bitnami-labs/flagenv v0.1.0
